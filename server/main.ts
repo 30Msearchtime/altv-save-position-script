@@ -6,23 +6,43 @@ interface PlayerPosition {
   z: number;
 }
 
-const playerPositions: Record<string, PlayerPosition> = {};
+const playerPositions: Map<number, PlayerPosition> = new Map();
 
 alt.on('playerConnect', (player) => {
-  playerPositions[player.id] = { x: 0, y: 0, z: 0 };
+  playerPositions.set(player.id, null);
   alt.log(`Player ${player.id} connected.`);
+
+  player.on('chatMessage', (message) => {
+    if (message === '/savepos') {
+      const position = player.pos;
+      playerPositions.set(player.id, { x: position.x, y: position.y, z: position.z });
+      player.emit('positionSaved');
+    } else if (message === '/loadpos') {
+      const position = playerPositions.get(player.id);
+      if (!position) {
+        player.emit('positionError', 'Keine gespeicherte Position gefunden.');
+        return;
+      }
+
+      player.pos = new alt.Vector3(position.x, position.y, position.z);
+      player.emit('teleportedToPosition');
+    }
+  });
 });
 
 alt.onClient('savePosition', (player) => {
   const position = player.pos;
-  playerPositions[player.id] = { x: position.x, y: position.y, z: position.z };
+  playerPositions.set(player.id, { x: position.x, y: position.y, z: position.z });
   player.emit('positionSaved');
 });
 
 alt.onClient('teleportToSavedPosition', (player) => {
-  const position = playerPositions[player.id];
-  if (position) {
-    player.pos = new alt.Vector3(position.x, position.y, position.z);
-    player.emit('teleportedToPosition');
+  const position = playerPositions.get(player.id);
+  if (!position) {
+    player.emit('positionError', 'Keine gespeicherte Position gefunden.');
+    return;
   }
+
+  player.pos = new alt.Vector3(position.x, position.y, position.z);
+  player.emit('teleportedToPosition');
 });
