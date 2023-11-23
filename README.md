@@ -33,10 +33,10 @@ Before installing the script, make sure your server meets the following requirem
 
 ## Usage
 
-In the game, players can use the following commands:
+Players can use the following chat commands in the game:
 
-- Press `B` to save the current position.
-- Press `N` to teleport back to the saved position.
+- Type `/savepos` in the chat to save the current position.
+- Type `/loadpos` in the chat to teleport back to the saved position.
 
 ## Contributing
 
