@@ -1,0 +1,8 @@
+{
+  "database": {
+    "host": "dein_db_host",
+    "user": "dein_db_user",
+    "password": "dein_db_passwort",
+    "database": "dein_db_name"
+  }
+}
