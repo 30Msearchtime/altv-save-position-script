@@ -1,5 +1,5 @@
 import * as alt from 'alt-server';
-import { savePlayerPosition, loadPlayerPosition } from './database'; // Stelle sicher, dass der Pfad zur database.ts Datei korrekt ist.
+import { savePlayerPosition, loadPlayerPosition } from './database'; // Ensure the path to database.ts file is correct.
 
 alt.on('playerConnect', (player) => {
     alt.log(`Player ${player.id} connected.`);
@@ -10,10 +10,10 @@ alt.on('playerConnect', (player) => {
             try {
                 await savePlayerPosition(player.id.toString(), position.x, position.y, position.z);
                 player.emit('positionSaved');
-                alt.log(`Position für Spieler ${player.id} gespeichert.`);
+                alt.log(`Position for player ${player.id} saved.`);
             } catch (error) {
-                console.error('Fehler beim Speichern der Position:', error);
-                player.emit('positionError', 'Position konnte nicht gespeichert werden.');
+                console.error('Error saving position:', error);
+                player.emit('positionError', 'Could not save position.');
             }
         } else if (message === '/loadpos') {
             try {
@@ -21,13 +21,13 @@ alt.on('playerConnect', (player) => {
                 if (position) {
                     player.pos = new alt.Vector3(position.posX, position.posY, position.posZ);
                     player.emit('teleportedToPosition');
-                    alt.log(`Spieler ${player.id} zu gespeicherter Position teleportiert.`);
+                    alt.log(`Player ${player.id} teleported to saved position.`);
                 } else {
-                    player.emit('positionError', 'Keine gespeicherte Position gefunden.');
+                    player.emit('positionError', 'No saved position found.');
                 }
             } catch (error) {
-                console.error('Fehler beim Laden der Position:', error);
-                player.emit('positionError', 'Position konnte nicht geladen werden.');
+                console.error('Error loading position:', error);
+                player.emit('positionError', 'Could not load position.');
             }
         }
     });
