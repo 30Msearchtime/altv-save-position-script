@@ -1,11 +1,11 @@
 import * as alt from 'alt-client';
 
 alt.onServer('positionSaved', () => {
-    alt.log('Deine Position wurde gespeichert.');
+    alt.log('Your position has been saved.');
 });
 
 alt.onServer('teleportedToPosition', () => {
-    alt.log('Du wurdest zu deiner gespeicherten Position teleportiert.');
+    alt.log('You have been teleported to your saved position.');
 });
 
 alt.onServer('positionError', (message: string) => {
