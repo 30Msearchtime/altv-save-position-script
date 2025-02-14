@@ -1,3 +1,5 @@
+# ⚠️ Warning: This version is outdated! A new update is coming soon. ⚠️
+
 # AltV Roleplay Save Position Script
 
 This TypeScript script for AltV Roleplay servers allows players to save their current position in the game with a command and return to it later. The positions are stored in an SQL database, allowing for persistent storage across server restarts.
